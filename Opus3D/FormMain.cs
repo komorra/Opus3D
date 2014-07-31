@@ -24,7 +24,13 @@ namespace Opus3D
             Icon = O3DInfo.ApplicationIcon;
 
             Canvas2D canvas = Canvas2D.FromControl(this);
-            canvas.SetSolidFill(SharpDX.Color.Red);
+            canvas.Render += ()=>
+                {
+                    canvas.Clear();
+                    canvas.SetSolidFill(SharpDX.Color.Red);
+                    canvas.DrawRectangle(0, 0, 100, 100);
+                };
+            //canvas.SetSolidFill(SharpDX.Color.Red);
         }
     }
 }

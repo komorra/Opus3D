@@ -14,11 +14,12 @@ namespace O3DRender
         public const int RenderInterval = 15;
         protected const string notInRenderEventCallMessage = "Always call draw & render state functions during Render event!";
 
-        public event Action<Canvas> Render = delegate { };
+        public event Action Render = delegate { };
 
         protected bool isRenderEvent = false;
 
         protected static Device device;
+        internal static RenderResources resources;
         private Timer timer;
         protected Control control;
 
@@ -28,6 +29,24 @@ namespace O3DRender
             {
                 var pp = new PresentParameters(2048, 2048);
                 device = new Device(new Direct3D(), 0, DeviceType.Hardware, IntPtr.Zero, CreateFlags.HardwareVertexProcessing, pp);
+
+                resources = new RenderResources(device);
+            }
+        }
+
+        public float ControlWidth
+        {
+            get
+            {
+                return control.ClientSize.Width;
+            }
+        }
+
+        public float ControlHeight
+        {
+            get
+            {
+                return control.ClientSize.Height;
             }
         }
         
@@ -58,7 +77,8 @@ namespace O3DRender
             isRenderEvent = true;
 
             device.Viewport = new Viewport(0, 0, control.ClientSize.Width, control.ClientSize.Height);
-            device.BeginScene();            
+            device.BeginScene();
+            Render();
             device.EndScene();
             var rect = new Rectangle(0,0,control.ClientSize.Width,control.ClientSize.Height);
             device.Present(rect, rect, control.Handle);

@@ -16,6 +16,8 @@ namespace O3DRender
         public Vector2 UV;
         public Color Color;
 
+        public Vertex(float x, float y, float z) : this(new Vector3(x, y, z)) { }        
+
         public Vertex(Vector3 position)
         {
             Position = position;
@@ -40,7 +42,7 @@ namespace O3DRender
 
         static VertexDeclaration vdecl;
 
-        public const int SizeInBytes = sizeof(float) * 9;
+        public const int SizeInBytes = sizeof(float) * 8 + sizeof(int);
 
         public static VertexDeclaration GetVertexDeclaration(Device device)
         {
