@@ -1,4 +1,5 @@
 ﻿using O3DBase.Configuration;
+using O3DRender;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -21,6 +22,9 @@ namespace Opus3D
         {
             Text = O3DInfo.ApplicationName + " v" + (O3DInfo.ApplicationVersion / 1000) + "." + (O3DInfo.ApplicationVersion % 1000).ToString("000");
             Icon = O3DInfo.ApplicationIcon;
+
+            Canvas2D canvas = Canvas2D.FromControl(this);
+            canvas.SetSolidFill(SharpDX.Color.Red);
         }
     }
 }
