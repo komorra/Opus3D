@@ -1,4 +1,5 @@
-﻿using System;
+﻿using O3DBase.Configuration;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,6 +15,12 @@ namespace Opus3D
         public FormMain()
         {
             InitializeComponent();
+        }
+
+        private void FormMain_Load(object sender, EventArgs e)
+        {
+            Text = O3DInfo.ApplicationName + " v" + (O3DInfo.ApplicationVersion / 1000) + "." + (O3DInfo.ApplicationVersion % 1000).ToString("000");
+            Icon = O3DInfo.ApplicationIcon;
         }
     }
 }

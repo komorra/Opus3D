@@ -5,6 +5,10 @@ VisualStudioVersion = 12.0.30110.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Opus3D", "Opus3D.csproj", "{AE5813B1-1AFE-4543-AC70-C45970156DF3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "O3DRender", "..\O3DRender\O3DRender.csproj", "{F716E8F5-EA74-4BBA-9B3E-CDDDB4761DB4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "O3DBase", "O3DBase\O3DBase.csproj", "{E0EC125A-09D9-40F3-89E0-611504CA52EA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{AE5813B1-1AFE-4543-AC70-C45970156DF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE5813B1-1AFE-4543-AC70-C45970156DF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE5813B1-1AFE-4543-AC70-C45970156DF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F716E8F5-EA74-4BBA-9B3E-CDDDB4761DB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F716E8F5-EA74-4BBA-9B3E-CDDDB4761DB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F716E8F5-EA74-4BBA-9B3E-CDDDB4761DB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F716E8F5-EA74-4BBA-9B3E-CDDDB4761DB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0EC125A-09D9-40F3-89E0-611504CA52EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0EC125A-09D9-40F3-89E0-611504CA52EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0EC125A-09D9-40F3-89E0-611504CA52EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0EC125A-09D9-40F3-89E0-611504CA52EA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
