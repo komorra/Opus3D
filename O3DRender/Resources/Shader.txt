@@ -112,6 +112,26 @@ float4 PS_CG(PS_IN input) : COLOR
 	return tex2D(GradientSMP, uv) * ColorMul;
 }
 
+float4 PS_SG(PS_IN input) : COLOR
+{
+	float2 pos = float2((input.scrPos.x + 1)*0.5*Size.x,(1 - input.scrPos.y)*0.5*Size.y);
+
+	float2 gb = GradientBegin;
+	float2 ge = GradientEnd;
+
+	float ud = abs((pos.x - gb.x) / (pos.y - gb.y) * (ge.y-gb.y)/(ge.x-gb.x));
+
+	float uvu = abs((pos.x-gb.x)/(ge.x-gb.x));
+	if(ud < 1)
+	{
+		uvu = abs((pos.y-gb.y)/(ge.y-gb.y));
+	}
+
+	float2 uv = float2(uvu,0.5);
+
+	return tex2D(GradientSMP, uv) * ColorMul;
+}
+
 float scale(float x, float a, float b, float c, float d)
 {
 	float s = (x-a)/(b-a);
@@ -163,6 +183,15 @@ technique ConeGradient
 	{
 		VertexShader = compile vs_3_0 VS();
 		PixelShader = compile ps_3_0 PS_CG();
+	}
+}
+
+technique SquareGradient
+{
+	pass
+	{
+		VertexShader = compile vs_3_0 VS();
+		PixelShader = compile ps_3_0 PS_SG();
 	}
 }
 

@@ -35,11 +35,11 @@ namespace Opus3D
                 {
                     canvas.Clear();
                     canvas.SetSolidFill(SharpDX.Color.Red);
-                    canvas.SetConeGradientFill(new SharpDX.Vector2(m1.X,m1.Y), new SharpDX.Vector2(m2.X,m2.Y), new GradientStop(0, SharpDX.Color.Red), new GradientStop(0.5f, SharpDX.Color.Yellow), new GradientStop(1f, SharpDX.Color.Green));
+                    canvas.SetSquareGradientFill(new SharpDX.Vector2(m1.X,m1.Y), new SharpDX.Vector2(m2.X,m2.Y), new GradientStop(0, SharpDX.Color.Red), new GradientStop(0.5f, SharpDX.Color.Yellow), new GradientStop(1f, SharpDX.Color.Green));
 
-                    canvas.SetColorMultiply(SharpDX.Color.White);
+                    //canvas.SetColorMultiply(SharpDX.Color.White);
                     //canvas.SetTexturePatternFill(new SharpDX.Vector2(0, 0), new SharpDX.Vector2(400, 400), img);
-                    canvas.FillRectangle(0, 0, 400, 400);
+                    canvas.FillRectangle(0, 0, ClientSize.Width, ClientSize.Height);
 
                     canvas.SetColorMultiply(new SharpDX.Color(1f, 0.5f, 0.1f, 0.5f));
                     canvas.SetTexturePatternFill(new SharpDX.Vector2(m1.X, m1.Y), new SharpDX.Vector2(m2.X, m2.Y), img);

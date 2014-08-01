@@ -64,6 +64,7 @@ namespace O3DRender
             LinearGradient,
             RadialGradient,
             ConeGradient,
+            SquareGradient,
             TexturePattern,
         }
 
@@ -138,6 +139,14 @@ namespace O3DRender
 
             SetGradient(begin, end, stops);
             CurrentFillMode = FillMode.ConeGradient;
+        }
+
+        public void SetSquareGradientFill(Vector2 begin, Vector2 end, params GradientStop[] stops)
+        {
+            PreventNonRenderCalls();
+
+            SetGradient(begin, end, stops);
+            CurrentFillMode = FillMode.SquareGradient;
         }
 
         public unsafe void SetTexturePatternFill(Vector2 begin, Vector2 end, SD.Image texture)
@@ -326,6 +335,9 @@ namespace O3DRender
                     break;
                 case FillMode.ConeGradient:
                     resources.Shader.Technique = resources.Shader.GetTechnique("ConeGradient");
+                    break;
+                case FillMode.SquareGradient:
+                    resources.Shader.Technique = resources.Shader.GetTechnique("SquareGradient");
                     break;
                 case FillMode.TexturePattern:
                     resources.Shader.Technique = resources.Shader.GetTechnique("TexturePattern");
