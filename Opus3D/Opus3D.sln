@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "O3DRender", "..\O3DRender\O
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "O3DBase", "O3DBase\O3DBase.csproj", "{E0EC125A-09D9-40F3-89E0-611504CA52EA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "O3DGUI", "..\O3DGUI\O3DGUI.csproj", "{6519B7AA-B7F1-4B07-B935-3C98B7BF99CB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DefaultSkin", "DefaultSkin\DefaultSkin.csproj", "{132E085F-D518-4C95-8C15-D7162A246BEC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{E0EC125A-09D9-40F3-89E0-611504CA52EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0EC125A-09D9-40F3-89E0-611504CA52EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0EC125A-09D9-40F3-89E0-611504CA52EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6519B7AA-B7F1-4B07-B935-3C98B7BF99CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6519B7AA-B7F1-4B07-B935-3C98B7BF99CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6519B7AA-B7F1-4B07-B935-3C98B7BF99CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6519B7AA-B7F1-4B07-B935-3C98B7BF99CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{132E085F-D518-4C95-8C15-D7162A246BEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{132E085F-D518-4C95-8C15-D7162A246BEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{132E085F-D518-4C95-8C15-D7162A246BEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{132E085F-D518-4C95-8C15-D7162A246BEC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
