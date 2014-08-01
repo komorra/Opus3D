@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Gradient = System.Tuple<SharpDX.Vector2, SharpDX.Vector2, O3DRender.GradientStop[]>;
+using SD = System.Drawing;
 
 namespace O3DRender
 {
@@ -69,9 +70,11 @@ namespace O3DRender
         private FillMode CurrentFillMode = FillMode.Solid;
         private Color CurrentSolidFill = Color.White;
         private Dictionary<GradientStop[], Texture> gradients = new Dictionary<GradientStop[], Texture>(new GradientStopArrayComparer());
+        private Dictionary<SD.Image, Texture> textures = new Dictionary<SD.Image, Texture>();
         private Texture CurrentGradient = null;
         private Vector2 CurrentGradientBegin;
         private Vector2 CurrentGradientEnd;
+        private Texture CurrentTexturePattern = null;
 
         internal Canvas2D()
         {
@@ -121,10 +124,45 @@ namespace O3DRender
             CurrentFillMode = FillMode.ConeGradient;
         }
 
-        private unsafe void SetGradient(Vector2 begin, Vector2 end, params GradientStop[] stops)
+        public unsafe void SetTexturePatternFill(Vector2 begin, Vector2 end, SD.Image texture)
         {
-            CurrentGradientBegin = new Vector2((begin.X / ControlWidth - 0.5f) * 2f, ((ControlHeight - begin.Y) / ControlHeight - 0.5f) * 2f);
-            CurrentGradientEnd = new Vector2((end.X / ControlWidth - 0.5f) * 2f, ((ControlHeight - end.Y) / ControlHeight - 0.5f) * 2f);
+            PreventNonRenderCalls();
+
+            CurrentGradientBegin = begin;
+            CurrentGradientEnd = end;
+
+            CurrentFillMode = FillMode.TexturePattern;
+
+            if(textures.ContainsKey(texture))
+            {
+                CurrentTexturePattern = textures[texture];
+            }
+            else
+            {
+                Texture tex = new Texture(device, texture.Width, texture.Height, 1, Usage.Dynamic, Format.A8R8G8B8, Pool.Default);                
+                var r = tex.LockRectangle(0, LockFlags.Discard);
+
+                var bd = (texture as SD.Bitmap).LockBits(new SD.Rectangle(0, 0, texture.Width, texture.Height), SD.Imaging.ImageLockMode.ReadOnly, SD.Imaging.PixelFormat.Format32bppArgb);
+
+                for (int lb = 0; lb < texture.Height;lb++)
+                {
+                    for(int la=0;la<texture.Width;la++)
+                    {
+                        var dst = (int*)(r.DataPointer + la * 4 + lb * r.Pitch);
+                        var src = (int*)(bd.Scan0 + la * 4 + lb * bd.Stride);
+                        *dst = *src;
+                    }
+                }
+
+                (texture as SD.Bitmap).UnlockBits(bd);
+                tex.UnlockRectangle(0);
+
+                textures.Add(texture, tex);
+            }
+        }
+
+        private unsafe void SetGradient(Vector2 begin, Vector2 end, params GradientStop[] stops)
+        {            
             CurrentGradientBegin = begin;
             CurrentGradientEnd = end;
 
@@ -180,6 +218,7 @@ namespace O3DRender
             resources.Shader.SetValue("GradientBegin", CurrentGradientBegin);
             resources.Shader.SetValue("GradientEnd", CurrentGradientEnd);
             resources.Shader.SetValue("Size", new Vector2(ControlWidth, ControlHeight));
+            resources.Shader.SetTexture("Texture", CurrentTexturePattern);
             SetProperTechnique();
             resources.Shader.Begin();
             resources.Shader.BeginPass(0);
@@ -204,6 +243,7 @@ namespace O3DRender
             resources.Shader.SetValue("GradientBegin", CurrentGradientBegin);
             resources.Shader.SetValue("GradientEnd", CurrentGradientEnd);
             resources.Shader.SetValue("Size", new Vector2(ControlWidth, ControlHeight));
+            resources.Shader.SetTexture("Texture", CurrentTexturePattern);
             SetProperTechnique();
             resources.Shader.Begin();
             resources.Shader.BeginPass(0);
@@ -232,6 +272,9 @@ namespace O3DRender
                     break;
                 case FillMode.ConeGradient:
                     resources.Shader.Technique = resources.Shader.GetTechnique("ConeGradient");
+                    break;
+                case FillMode.TexturePattern:
+                    resources.Shader.Technique = resources.Shader.GetTechnique("TexturePattern");
                     break;
             }
         }

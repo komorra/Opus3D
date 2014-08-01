@@ -2,6 +2,7 @@ float4x4 World;
 float4x4 ViewProj;
 float4 Color = float4(1,1,1,1);
 texture Gradient;
+texture Texture;
 float2 GradientBegin;
 float2 GradientEnd;
 float2 Size;
@@ -11,6 +12,14 @@ sampler GradientSMP = sampler_state
 	texture = <Gradient>;
 	filter = linear;
 	addressu = clamp;
+};
+
+sampler TextureSMP = sampler_state
+{
+	texture = <Texture>;
+	filter = linear;
+	addressu = wrap;
+	addressv = wrap;
 };
 
 struct VS_IN
@@ -102,6 +111,24 @@ float4 PS_CG(PS_IN input) : COLOR
 	return tex2D(GradientSMP, uv);
 }
 
+float scale(float x, float a, float b, float c, float d)
+{
+	float s = (x-a)/(b-a);
+	return s*(d-c)+c;
+}
+
+float4 PS_TP(PS_IN input) : COLOR
+{
+	float2 pos = float2((input.scrPos.x + 1)*0.5*Size.x,(1 - input.scrPos.y)*0.5*Size.y);
+
+	float2 gb = GradientBegin;
+	float2 ge = GradientEnd;
+
+	float2 uv = float2(scale(pos.x, gb.x, ge.x, 0, 1), scale(pos.y, gb.y, ge.y, 0, 1));
+
+	return tex2D(TextureSMP, uv);
+}
+
 technique SolidColor
 {
 	pass
@@ -135,5 +162,14 @@ technique ConeGradient
 	{
 		VertexShader = compile vs_3_0 VS();
 		PixelShader = compile ps_3_0 PS_CG();
+	}
+}
+
+technique TexturePattern
+{
+	pass
+	{
+		VertexShader = compile vs_3_0 VS();
+		PixelShader = compile ps_3_0 PS_TP();
 	}
 }

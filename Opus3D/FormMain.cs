@@ -28,12 +28,15 @@ namespace Opus3D
             MouseDown += (a, b) => m1 = b.Location;
             MouseMove += (a, b) => { if (b.Button == System.Windows.Forms.MouseButtons.Left) m2 = b.Location; };
 
+            Image img = Image.FromFile(@"C:\Users\User\Pictures\210f0f1c00004f4a.jpg");
+
             Canvas2D canvas = Canvas2D.FromControl(this);
             canvas.Render += ()=>
                 {
                     canvas.Clear();
                     canvas.SetSolidFill(SharpDX.Color.Red);
-                    canvas.SetConeGradientFill(new SharpDX.Vector2(m1.X,m1.Y), new SharpDX.Vector2(m2.X,m2.Y), new GradientStop(0, SharpDX.Color.Red), new GradientStop(0.5f, SharpDX.Color.Yellow), new GradientStop(1f, SharpDX.Color.Green));
+                    //canvas.SetConeGradientFill(new SharpDX.Vector2(m1.X,m1.Y), new SharpDX.Vector2(m2.X,m2.Y), new GradientStop(0, SharpDX.Color.Red), new GradientStop(0.5f, SharpDX.Color.Yellow), new GradientStop(1f, SharpDX.Color.Green));
+                    canvas.SetTexturePatternFill(new SharpDX.Vector2(m1.X, m1.Y), new SharpDX.Vector2(m2.X, m2.Y), img);                    
                     canvas.FillRectangle(0, 0, ClientSize.Width-1, ClientSize.Height-1);
                 };
             //canvas.SetSolidFill(SharpDX.Color.Red);
