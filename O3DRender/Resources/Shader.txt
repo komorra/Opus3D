@@ -65,6 +65,43 @@ float4 PS_LG(PS_IN input) : COLOR
 	return tex2D(GradientSMP, uv);
 }
 
+float4 PS_RG(PS_IN input) : COLOR
+{
+	float2 pos = float2((input.scrPos.x + 1)*0.5*Size.x,(1 - input.scrPos.y)*0.5*Size.y);
+
+	float2 gb = GradientBegin;
+	float2 ge = GradientEnd;
+
+	pos.x /= (ge.x - gb.x);
+	pos.y /= (ge.y - gb.y);
+
+	float uvu = distance(pos, float2(gb.x/(ge.x-gb.x),gb.y/(ge.y-gb.y)));
+
+	float2 uv = float2(uvu,0.5);
+
+	return tex2D(GradientSMP, uv);
+}
+
+float4 PS_CG(PS_IN input) : COLOR
+{
+	float2 pos = float2((input.scrPos.x + 1)*0.5*Size.x,(1 - input.scrPos.y)*0.5*Size.y);
+
+	float2 gb = GradientBegin;
+	float2 ge = GradientEnd;
+
+	pos.x /= (ge.x - gb.x);
+	pos.y /= (ge.y - gb.y);
+
+	float2 trn = float2(gb.x/(ge.x-gb.x),gb.y/(ge.y-gb.y));
+	//float2 trn = gb;
+
+	float uvu = (atan2((pos.x-trn.x),(pos.y-trn.y)) + 3.1415)/(3.1415 * 2.0);
+
+	float2 uv = float2(uvu,0.5);
+
+	return tex2D(GradientSMP, uv);
+}
+
 technique SolidColor
 {
 	pass
@@ -80,5 +117,23 @@ technique LinearGradient
 	{
 		VertexShader = compile vs_3_0 VS();
 		PixelShader = compile ps_3_0 PS_LG();
+	}
+}
+
+technique RadialGradient
+{
+	pass
+	{
+		VertexShader = compile vs_3_0 VS();
+		PixelShader = compile ps_3_0 PS_RG();
+	}
+}
+
+technique ConeGradient
+{
+	pass
+	{
+		VertexShader = compile vs_3_0 VS();
+		PixelShader = compile ps_3_0 PS_CG();
 	}
 }

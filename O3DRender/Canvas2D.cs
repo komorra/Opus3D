@@ -105,6 +105,22 @@ namespace O3DRender
             CurrentFillMode = FillMode.LinearGradient;
         }
 
+        public void SetRadialGradientFill(Vector2 begin, Vector2 end, params GradientStop[] stops)
+        {
+            PreventNonRenderCalls();
+
+            SetGradient(begin, end, stops);
+            CurrentFillMode = FillMode.RadialGradient;
+        }
+
+        public void SetConeGradientFill(Vector2 begin, Vector2 end, params GradientStop[] stops)
+        {
+            PreventNonRenderCalls();
+
+            SetGradient(begin, end, stops);
+            CurrentFillMode = FillMode.ConeGradient;
+        }
+
         private unsafe void SetGradient(Vector2 begin, Vector2 end, params GradientStop[] stops)
         {
             CurrentGradientBegin = new Vector2((begin.X / ControlWidth - 0.5f) * 2f, ((ControlHeight - begin.Y) / ControlHeight - 0.5f) * 2f);
@@ -210,6 +226,12 @@ namespace O3DRender
                     break;
                 case FillMode.LinearGradient:
                     resources.Shader.Technique = resources.Shader.GetTechnique("LinearGradient");
+                    break;
+                case FillMode.RadialGradient:
+                    resources.Shader.Technique = resources.Shader.GetTechnique("RadialGradient");
+                    break;
+                case FillMode.ConeGradient:
+                    resources.Shader.Technique = resources.Shader.GetTechnique("ConeGradient");
                     break;
             }
         }
