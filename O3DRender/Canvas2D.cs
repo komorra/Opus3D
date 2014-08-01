@@ -212,13 +212,7 @@ namespace O3DRender
             PreventNonRenderCalls();
 
             resources.Shader.SetValue("World", Matrix.Scaling(width / ControlWidth * 2f, -height / ControlHeight * 2f, 1) * Matrix.Translation(-1, 1, 0) * Matrix.Translation(x / ControlWidth * 2f, -y / ControlHeight * 2f, 0));
-            resources.Shader.SetValue("ViewProj", Matrix.Identity);
-            resources.Shader.SetValue("Color", CurrentSolidFill.ToVector4());
-            resources.Shader.SetTexture("Gradient", CurrentGradient);
-            resources.Shader.SetValue("GradientBegin", CurrentGradientBegin);
-            resources.Shader.SetValue("GradientEnd", CurrentGradientEnd);
-            resources.Shader.SetValue("Size", new Vector2(ControlWidth, ControlHeight));
-            resources.Shader.SetTexture("Texture", CurrentTexturePattern);
+            SetShaderValues();
             SetProperTechnique();
             resources.Shader.Begin();
             resources.Shader.BeginPass(0);
@@ -232,11 +226,27 @@ namespace O3DRender
             resources.Shader.End();
         }
 
-        public void FillRectangle(float x, float y, float width, float height)
+        public void DrawEllipse(float x, float y, float width, float height)
         {
             PreventNonRenderCalls();
 
             resources.Shader.SetValue("World", Matrix.Scaling(width / ControlWidth * 2f, -height / ControlHeight * 2f, 1) * Matrix.Translation(-1, 1, 0) * Matrix.Translation(x / ControlWidth * 2f, -y / ControlHeight * 2f, 0));
+            SetShaderValues();
+            SetProperTechnique();
+            resources.Shader.Begin();
+            resources.Shader.BeginPass(0);
+
+            device.VertexDeclaration = Vertex.GetVertexDeclaration(device);
+            device.Indices = resources.CircleIBuffer;
+            device.SetStreamSource(0, resources.CircleVBuffer, 0, Vertex.SizeInBytes);
+            device.DrawIndexedPrimitive(PrimitiveType.LineList, 0, 0, RenderResources.CircleQuality, 0, RenderResources.CircleQuality);
+
+            resources.Shader.EndPass();
+            resources.Shader.End();
+        }
+
+        private void SetShaderValues()
+        {
             resources.Shader.SetValue("ViewProj", Matrix.Identity);
             resources.Shader.SetValue("Color", CurrentSolidFill.ToVector4());
             resources.Shader.SetTexture("Gradient", CurrentGradient);
@@ -244,6 +254,14 @@ namespace O3DRender
             resources.Shader.SetValue("GradientEnd", CurrentGradientEnd);
             resources.Shader.SetValue("Size", new Vector2(ControlWidth, ControlHeight));
             resources.Shader.SetTexture("Texture", CurrentTexturePattern);
+        }
+
+        public void FillRectangle(float x, float y, float width, float height)
+        {
+            PreventNonRenderCalls();
+
+            resources.Shader.SetValue("World", Matrix.Scaling(width / ControlWidth * 2f, -height / ControlHeight * 2f, 1) * Matrix.Translation(-1, 1, 0) * Matrix.Translation(x / ControlWidth * 2f, -y / ControlHeight * 2f, 0));
+            SetShaderValues();
             SetProperTechnique();
             resources.Shader.Begin();
             resources.Shader.BeginPass(0);
@@ -252,6 +270,25 @@ namespace O3DRender
             device.Indices = resources.FillRectangleIBuffer;
             device.SetStreamSource(0, resources.RectangleVBuffer, 0, Vertex.SizeInBytes);
             device.DrawIndexedPrimitive(PrimitiveType.TriangleList, 0, 0, 4, 0, 2);
+
+            resources.Shader.EndPass();
+            resources.Shader.End();
+        }
+
+        public void FillEllipse(float x, float y, float width, float height)
+        {
+            PreventNonRenderCalls();
+
+            resources.Shader.SetValue("World", Matrix.Scaling(width / ControlWidth * 2f, -height / ControlHeight * 2f, 1) * Matrix.Translation(-1, 1, 0) * Matrix.Translation(x / ControlWidth * 2f, -y / ControlHeight * 2f, 0));
+            SetShaderValues();
+            SetProperTechnique();
+            resources.Shader.Begin();
+            resources.Shader.BeginPass(0);
+
+            device.VertexDeclaration = Vertex.GetVertexDeclaration(device);
+            device.Indices = resources.FillCircleIBuffer;
+            device.SetStreamSource(0, resources.CircleVBuffer, 0, Vertex.SizeInBytes);
+            device.DrawIndexedPrimitive(PrimitiveType.TriangleList, 0, 0, RenderResources.CircleQuality + 1, 0, RenderResources.CircleQuality);
 
             resources.Shader.EndPass();
             resources.Shader.End();

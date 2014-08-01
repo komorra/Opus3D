@@ -37,7 +37,8 @@ namespace Opus3D
                     canvas.SetSolidFill(SharpDX.Color.Red);
                     //canvas.SetConeGradientFill(new SharpDX.Vector2(m1.X,m1.Y), new SharpDX.Vector2(m2.X,m2.Y), new GradientStop(0, SharpDX.Color.Red), new GradientStop(0.5f, SharpDX.Color.Yellow), new GradientStop(1f, SharpDX.Color.Green));
                     canvas.SetTexturePatternFill(new SharpDX.Vector2(m1.X, m1.Y), new SharpDX.Vector2(m2.X, m2.Y), img);                    
-                    canvas.FillRectangle(0, 0, ClientSize.Width-1, ClientSize.Height-1);
+                    //canvas.FillRectangle(0, 0, ClientSize.Width-1, ClientSize.Height-1);
+                    canvas.FillEllipse(0, 0, 100, 100);
                 };
             //canvas.SetSolidFill(SharpDX.Color.Red);
         }
