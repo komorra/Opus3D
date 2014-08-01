@@ -6,6 +6,7 @@ texture Texture;
 float2 GradientBegin;
 float2 GradientEnd;
 float2 Size;
+float4 ColorMul;
 
 sampler GradientSMP = sampler_state
 {
@@ -53,7 +54,7 @@ PS_IN VS(VS_IN input)
 
 float4 PS(PS_IN input) : COLOR
 {
-	return Color;
+	return Color * ColorMul;
 }
 
 float4 PS_LG(PS_IN input) : COLOR
@@ -71,7 +72,7 @@ float4 PS_LG(PS_IN input) : COLOR
 
 	float2 uv = float2(uvu,0.5);
 
-	return tex2D(GradientSMP, uv);
+	return tex2D(GradientSMP, uv) * ColorMul;
 }
 
 float4 PS_RG(PS_IN input) : COLOR
@@ -88,7 +89,7 @@ float4 PS_RG(PS_IN input) : COLOR
 
 	float2 uv = float2(uvu,0.5);
 
-	return tex2D(GradientSMP, uv);
+	return tex2D(GradientSMP, uv) * ColorMul;
 }
 
 float4 PS_CG(PS_IN input) : COLOR
@@ -108,7 +109,7 @@ float4 PS_CG(PS_IN input) : COLOR
 
 	float2 uv = float2(uvu,0.5);
 
-	return tex2D(GradientSMP, uv);
+	return tex2D(GradientSMP, uv) * ColorMul;
 }
 
 float scale(float x, float a, float b, float c, float d)
@@ -126,7 +127,7 @@ float4 PS_TP(PS_IN input) : COLOR
 
 	float2 uv = float2(scale(pos.x, gb.x, ge.x, 0, 1), scale(pos.y, gb.y, ge.y, 0, 1));
 
-	return tex2D(TextureSMP, uv);
+	return tex2D(TextureSMP, uv) * ColorMul;
 }
 
 technique SolidColor

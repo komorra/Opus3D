@@ -78,6 +78,12 @@ namespace O3DRender
 
             device.Viewport = new Viewport(0, 0, control.ClientSize.Width, control.ClientSize.Height);
             device.BeginScene();
+            device.SetRenderState(RenderState.ZEnable, this is Canvas3D);
+            var c2d = this as Canvas2D;
+            if(c2d!=null)
+            {
+                c2d.SetAlphaBlend();
+            }
             Render();
             device.EndScene();
             var rect = new Rectangle(0,0,control.ClientSize.Width,control.ClientSize.Height);

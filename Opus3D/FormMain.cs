@@ -28,17 +28,22 @@ namespace Opus3D
             MouseDown += (a, b) => m1 = b.Location;
             MouseMove += (a, b) => { if (b.Button == System.Windows.Forms.MouseButtons.Left) m2 = b.Location; };
 
-            Image img = Image.FromFile(@"C:\Users\User\Pictures\210f0f1c00004f4a.jpg");
+            Image img = Image.FromFile(@"C:\Users\User\Pictures\baringtonia01L.png");
 
             Canvas2D canvas = Canvas2D.FromControl(this);
             canvas.Render += ()=>
                 {
                     canvas.Clear();
                     canvas.SetSolidFill(SharpDX.Color.Red);
-                    //canvas.SetConeGradientFill(new SharpDX.Vector2(m1.X,m1.Y), new SharpDX.Vector2(m2.X,m2.Y), new GradientStop(0, SharpDX.Color.Red), new GradientStop(0.5f, SharpDX.Color.Yellow), new GradientStop(1f, SharpDX.Color.Green));
-                    canvas.SetTexturePatternFill(new SharpDX.Vector2(m1.X, m1.Y), new SharpDX.Vector2(m2.X, m2.Y), img);                    
-                    //canvas.FillRectangle(0, 0, ClientSize.Width-1, ClientSize.Height-1);
-                    canvas.FillEllipse(0, 0, 100, 100);
+                    canvas.SetConeGradientFill(new SharpDX.Vector2(m1.X,m1.Y), new SharpDX.Vector2(m2.X,m2.Y), new GradientStop(0, SharpDX.Color.Red), new GradientStop(0.5f, SharpDX.Color.Yellow), new GradientStop(1f, SharpDX.Color.Green));
+
+                    canvas.SetColorMultiply(SharpDX.Color.White);
+                    //canvas.SetTexturePatternFill(new SharpDX.Vector2(0, 0), new SharpDX.Vector2(400, 400), img);
+                    canvas.FillRectangle(0, 0, 400, 400);
+
+                    canvas.SetColorMultiply(new SharpDX.Color(1f, 0.5f, 0.1f, 0.5f));
+                    canvas.SetTexturePatternFill(new SharpDX.Vector2(m1.X, m1.Y), new SharpDX.Vector2(m2.X, m2.Y), img);
+                    canvas.FillEllipse(0, 0, 200, 200);
                 };
             //canvas.SetSolidFill(SharpDX.Color.Red);
         }

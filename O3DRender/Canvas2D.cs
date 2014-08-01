@@ -75,6 +75,7 @@ namespace O3DRender
         private Vector2 CurrentGradientBegin;
         private Vector2 CurrentGradientEnd;
         private Texture CurrentTexturePattern = null;
+        private Color CurrentMultiplyColor = Color.White;
 
         internal Canvas2D()
         {
@@ -83,6 +84,21 @@ namespace O3DRender
         public static Canvas2D FromControl(Control control)
         {
             return Canvas.FromControl<Canvas2D>(control);
+        }
+
+        public void SetAlphaBlend()
+        {
+            device.SetRenderState(RenderState.AlphaBlendEnable, true);
+            device.SetRenderState<BlendOperation>(RenderState.BlendOperation, BlendOperation.Add);
+            device.SetRenderState<Blend>(RenderState.SourceBlend, Blend.SourceAlpha);
+            device.SetRenderState<Blend>(RenderState.DestinationBlend, Blend.InverseSourceAlpha);
+        }
+
+        public void SetColorMultiply(Color color)
+        {
+            PreventNonRenderCalls();
+
+            CurrentMultiplyColor = color;
         }
 
         public void Clear()
@@ -254,6 +270,7 @@ namespace O3DRender
             resources.Shader.SetValue("GradientEnd", CurrentGradientEnd);
             resources.Shader.SetValue("Size", new Vector2(ControlWidth, ControlHeight));
             resources.Shader.SetTexture("Texture", CurrentTexturePattern);
+            resources.Shader.SetValue("ColorMul", CurrentMultiplyColor.ToVector4());
         }
 
         public void FillRectangle(float x, float y, float width, float height)
