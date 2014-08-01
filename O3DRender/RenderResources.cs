@@ -10,6 +10,9 @@ namespace O3DRender
     {
         public readonly VertexBuffer RectangleVBuffer;
         public readonly IndexBuffer RecangleIBuffer;
+        
+        public readonly IndexBuffer FillRectangleIBuffer;
+
         public readonly Effect Shader;
 
         public RenderResources(Device device)
@@ -32,6 +35,13 @@ namespace O3DRender
             var dsi = RecangleIBuffer.Lock(0, 0, LockFlags.Discard);
             dsi.WriteRange(rectanglei);
             RecangleIBuffer.Unlock();
+
+            int[] fillrecti = new int[] { 0, 1, 2, 3, 2, 1 };
+
+            FillRectangleIBuffer = new IndexBuffer(device, sizeof(int) * fillrecti.Length, Usage.WriteOnly, Pool.Default, false);
+            dsi = FillRectangleIBuffer.Lock(0, 0, LockFlags.Discard);
+            dsi.WriteRange(fillrecti);
+            FillRectangleIBuffer.Unlock();
 
             Shader = Effect.FromString(device, Resources.Shader, ShaderFlags.None);
         }
