@@ -1,4 +1,5 @@
-﻿using System;
+﻿using O3DRender;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -40,6 +41,32 @@ namespace O3DGUI
             set { height = value; }
         }
 
+        private int zOrder;
 
+        public int ZOrder
+        {
+            get { return zOrder; }
+            set { zOrder = value; }
+        }
+
+        private string text;
+
+        public string Text
+        {
+            get { return text; }
+            set { text = value; }
+        }
+
+
+
+        protected O3DSkin skin;
+
+        internal void SetSkin(O3DSkin skin)
+        {
+            this.skin = skin;
+        }
+
+        internal virtual void Render(Canvas2D canvas) { }
+     
     }
 }

@@ -46,9 +46,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Skin.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\O3DGUI\O3DGUI.csproj">
+      <Project>{6519b7aa-b7f1-4b07-b935-3c98b7bf99cb}</Project>
+      <Name>O3DGUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\O3DRender\O3DRender.csproj">
+      <Project>{f716e8f5-ea74-4bba-9b3e-cdddb4761db4}</Project>
+      <Name>O3DRender</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\O3DBase\O3DBase.csproj">
+      <Project>{e0ec125a-09d9-40f3-89e0-611504ca52ea}</Project>
+      <Name>O3DBase</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\SharpDX.2.6.2\build\SharpDX.targets" Condition="Exists('..\packages\SharpDX.2.6.2\build\SharpDX.targets')" />

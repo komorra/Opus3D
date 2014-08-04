@@ -48,6 +48,7 @@
     <Compile Include="GUIArea.cs" />
     <Compile Include="GUIControl.cs" />
     <Compile Include="GUIWindow.cs" />
+    <Compile Include="O3DSkin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

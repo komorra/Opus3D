@@ -19,6 +19,7 @@ namespace O3DRender
         protected bool isRenderEvent = false;
 
         protected static Device device;
+        protected Sprite sprite;
         internal static RenderResources resources;
         private Timer timer;
         protected Control control;
@@ -32,6 +33,7 @@ namespace O3DRender
 
                 resources = new RenderResources(device);
             }
+            sprite = new Sprite(device);
         }
 
         public float ControlWidth

@@ -54,7 +54,7 @@ namespace O3DRender
                 {
                     throw new ArgumentException("key");
                 }
-                return key.Sum(o => o.Color.ToBgra() + (int)(o.Offset * 100f));
+                return (int)key.Sum(o => (long)o.Color.ToBgra() + (long)(o.Offset * 100f));
             }
         }
 
@@ -72,6 +72,7 @@ namespace O3DRender
         private Color CurrentSolidFill = Color.White;
         private Dictionary<GradientStop[], Texture> gradients = new Dictionary<GradientStop[], Texture>(new GradientStopArrayComparer());
         private Dictionary<SD.Image, Texture> textures = new Dictionary<SD.Image, Texture>();
+        private Dictionary<SD.Font, Font> fonts = new Dictionary<SD.Font, Font>();
         private Texture CurrentGradient = null;
         private Vector2 CurrentGradientBegin;
         private Vector2 CurrentGradientEnd;
@@ -230,6 +231,34 @@ namespace O3DRender
                     gradients.Remove(gradients.First().Key);
                 }
             }
+        }
+
+        public void DrawText(float x, float y, float width, float height, SD.Font font, string text)
+        {
+            PreventNonRenderCalls();
+
+            Font f = null;
+            if (!fonts.ContainsKey(font))
+            {
+                f = new Font(device, font);
+                fonts.Add(font, f);
+            }
+            else
+            {
+                f = fonts[font];
+            }
+
+            device.ScissorRect = new Rectangle((int)x, (int)y, (int)width, (int)height);
+
+            SetProperTechnique();
+            SetShaderValues();
+
+            sprite.Begin(SpriteFlags.AlphaBlend);            
+            
+            f.DrawText(sprite, text, (int)x, (int)y, CurrentSolidFill);
+                        
+            sprite.End();
+            device.ScissorRect = new Rectangle(0, 0, (int)ControlWidth, (int)ControlHeight);
         }
 
         public void DrawRectangle(float x, float y, float width, float height)
